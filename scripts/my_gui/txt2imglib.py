@@ -23,10 +23,14 @@ def load_model(opt: AppOptions):
     return model
 
 
-def generate(model, opt: AppOptions) -> str:
+def generate(model, opt: AppOptions, frame=1) -> str:
+    print(f"opt = {opt}")
+
     seed_everything(opt.seed)
 
-    device = torch.device("cuda") if torch.cuda.is_available() else sys.exit("No GPU found")
+    device = (
+        torch.device("cuda") if torch.cuda.is_available() else sys.exit("No GPU found")
+    )
     model = model.to(device)
 
     if opt.plms:
@@ -91,8 +95,13 @@ def generate(model, opt: AppOptions) -> str:
                             x_sample.cpu().numpy(), "c h w -> h w c"
                         )
                         img = Image.fromarray(x_sample.astype(np.uint8))
-                        timestr = time.strftime("%Y-%m-%d-%H-%M-%S")
-                        filename = f"{timestr}-seed-{opt.seed}-scale-{opt.scale}-steps-{opt.ddim_steps}.png"
+
+                        if opt.mov_file_names:
+                            filename = f"frame_{frame:05}.png"
+                        else:
+                            timestr = time.strftime("%Y-%m-%d-%H-%M-%S")
+                            filename = f"{timestr}-seed-{opt.seed}-scale-{opt.scale}-steps-{opt.ddim_steps}.png"
+
                         img.save(os.path.join(sample_path, filename))
     return filename
 

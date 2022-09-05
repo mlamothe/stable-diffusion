@@ -19,3 +19,8 @@ class AppOptions:
     f: int = 8
     precision: str = "autocast"
     ddim_eta: float = 0.0
+
+    # Extras for the UI
+    mov_file_names: int = 0
+    increment_scale: int = 0
+    super_randomize: int = 0
