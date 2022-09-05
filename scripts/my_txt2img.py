@@ -3,14 +3,14 @@ import argparse, os #, sys, glob # ml - changed
 #import cv2 # ml - removed
 import torch
 import numpy as np
-from omegaconf import OmegaConf # ml - removed
+from omegaconf import OmegaConf
 from PIL import Image
 from tqdm import tqdm, trange
 #from imwatermark import WatermarkEncoder # ml - removed
 #from itertools import islice # ml - removed
 from einops import rearrange
-from torchvision.utils import make_grid
-# import time # ml - removed
+#from torchvision.utils import make_grid # ml - removed
+#import time # ml - removed
 from pytorch_lightning import seed_everything
 from torch import autocast
 from contextlib import contextmanager, nullcontext
@@ -290,7 +290,6 @@ def main():
                     for prompts in tqdm(data, desc="data"):
                         uc = None
                         if opt.scale != 1.0:
-                            print(f"!?Prompts: {prompts}, Seed: {opt.seed}, Scale: {opt.scale}")
                             uc = model.get_learned_conditioning(1 * [""]) # uc = model.get_learned_conditioning(batch_size * [""]) # ml - changed
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
