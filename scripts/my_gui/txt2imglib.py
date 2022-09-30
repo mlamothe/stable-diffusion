@@ -23,7 +23,7 @@ def load_model(opt: AppOptions):
     return model
 
 
-def generate(model, opt: AppOptions, frame=1) -> str:
+def generate(model, opt: AppOptions, frame=1, artist='') -> str:
     print(f"opt = {opt}")
 
     seed_everything(opt.seed)
@@ -96,8 +96,8 @@ def generate(model, opt: AppOptions, frame=1) -> str:
                         )
                         img = Image.fromarray(x_sample.astype(np.uint8))
 
-                        if opt.mov_file_names:
-                            filename = f"frame_{frame:05}.png"
+                        if opt.mov_file_names or opt.use_artist_names:
+                            filename = f"{artist}_frame_{frame:05}.png"                                
                         else:
                             timestr = time.strftime("%Y-%m-%d-%H-%M-%S")
                             filename = f"{timestr}-seed-{opt.seed}-scale-{opt.scale}-steps-{opt.ddim_steps}.png"

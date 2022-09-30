@@ -21,6 +21,7 @@ class Gui:
     _chk_increment_scale: Checkbutton
     _opt_dimension: OptionMenu
     _chk_super_randomize: Checkbutton
+    _chk_use_artist_list: Checkbutton
 
     _dimension_var: int
     _default_steps_var: int
@@ -28,6 +29,7 @@ class Gui:
     _default_iter_var: int
     _default_scale_var: float
     _super_randomize_var: int
+    _use_artist_list_var: int
 
     def dimensions(self):
         return self.DIMENSIONS
@@ -85,7 +87,7 @@ class Gui:
         )
         self._spin_iter.pack()
 
-        self._mov_file_names = IntVar(value=opt.mov_file_names)
+        self._mov_file_names = IntVar(value=opt.mov_file_names) # TODO: Starting frame#
         self._chk_mov_file_names = Checkbutton(
             text="Movie File Names",
             variable=self._mov_file_names,
@@ -112,6 +114,15 @@ class Gui:
         )
         self._chk_super_randomize.pack()
 
+        self._use_artist_list_var = IntVar(value=opt.use_artist_names)
+        self._chk_use_artist_list = Checkbutton(
+            text="Use Artist List",
+            variable=self._use_artist_list_var,
+            onvalue=1,
+            offvalue=0,
+        )
+        self._chk_use_artist_list.pack()
+
         # todo: cancel button
 
         window.mainloop()
@@ -126,7 +137,7 @@ class Gui:
         opt.increment_scale = self._increment_scale_var.get()
         opt.W, opt.H = map(int, self._dimension_var.get().split("x"))
         opt.super_randomize = self._super_randomize_var.get()
-        # todo: add more options
+        opt.use_artist_names = self._use_artist_list_var.get()
         return opt
 
     def model_loaded(self):
